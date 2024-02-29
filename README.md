@@ -2,9 +2,9 @@
 WordPress 6.4.3
 
 Includes:
-[] PDF upload (works with ACF)
-[] Customized tooltips
-[] Custom GIF Markers
+- PDF upload (works with ACF)
+- Customized tooltips
+- Custom GIF Markers
 
 # LocateAnything
 
