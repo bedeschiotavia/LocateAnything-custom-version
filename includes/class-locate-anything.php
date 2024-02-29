@@ -90,27 +90,13 @@ class Locate_Anything
         Locate_Anything_Addon_Helper::add_map_layouts("basic", $layouts);
         
         /* Load default marker icons */
-        $markers = array((object)array("url" => plugin_dir_url(dirname(__FILE__)) . '/public/js/leaflet-0.7.3/images/marker-icon.png', "description" => '', "width" => 25, "height" => 41, "shadowUrl" => plugin_dir_url(dirname(__FILE__)) . '/public/js/leaflet-0.7.3/images/marker-shadow.png', "shadowWidth" => '25', "shadowHeight" => '41'), 
+        $markers = array( 
         (object)array(
-        "url" => plugin_dir_url(dirname(__FILE__)) . "/assets/markers/48x48-marker-8.png", "description" => "", "width" => "48", "height" => "48", "shadowUrl" => plugin_dir_url(dirname(__FILE__)) . '/assets/markers/marker-shadow48.png', "shadowWidth" => '48', "shadowHeight" => "48"), 
+        "url" => plugin_dir_url(dirname(__FILE__)) . "/assets/markers/abastecimento.svg", "description" => "", "width" => "60", "height" => "60"),
         (object)array(
-        "url" => plugin_dir_url(dirname(__FILE__)) . "/assets/markers/48x48-marker-7.png", "description" => "", "width" => "48", "height" => "48", "shadowUrl" => plugin_dir_url(dirname(__FILE__)) . '/assets/markers/marker-shadow48.png', "shadowWidth" => '48', "shadowHeight" => "48"), 
+        "url" => plugin_dir_url(dirname(__FILE__)) . "/assets/markers/obras.svg", "description" => "", "width" => "60", "height" => "60"),
         (object)array(
-        "url" => plugin_dir_url(dirname(__FILE__)) . "/assets/markers/48x48-marker-9.png", "description" => "", "width" => "48", "height" => "48", "shadowUrl" => plugin_dir_url(dirname(__FILE__)) . '/assets/markers/marker-shadow48.png', "shadowWidth" => '48', "shadowHeight" => "48"), 
-        (object)array(
-        "url" => plugin_dir_url(dirname(__FILE__)) . "/assets/markers/48x48-marker-6.png", "description" => "", "width" => "48", "height" => "48", "shadowUrl" => plugin_dir_url(dirname(__FILE__)) . '/assets/markers/marker-shadow48.png', "shadowWidth" => '48', "shadowHeight" => "48"), 
-        (object)array(
-        "url" => plugin_dir_url(dirname(__FILE__)) . "/assets/markers/48x48-marker-3.png", "description" => "", "width" => "48", "height" => "48", "shadowUrl" => plugin_dir_url(dirname(__FILE__)) . '/assets/markers/marker-shadow48.png', "shadowWidth" => '48', "shadowHeight" => "48"), 
-        (object)array(
-        "url" => plugin_dir_url(dirname(__FILE__)) . "/assets/markers/48x48-marker-13.png", "description" => "", "width" => "48", "height" => "48", "shadowUrl" => plugin_dir_url(dirname(__FILE__)) . '/assets/markers/marker-shadow48.png', "shadowWidth" => '48', "shadowHeight" => "48"), 
-        (object)array(
-        "url" => plugin_dir_url(dirname(__FILE__)) . "/assets/markers/48x48-marker-4.png", "description" => "", "width" => "48", "height" => "48", "shadowUrl" => plugin_dir_url(dirname(__FILE__)) . '/assets/markers/marker-shadow48.png', "shadowWidth" => '48', "shadowHeight" => "48"), 
-        (object)array(
-        "url" => plugin_dir_url(dirname(__FILE__)) . "/assets/markers/48x48-marker-10.png", "description" => "", "width" => "48", "height" => "48", "shadowUrl" => plugin_dir_url(dirname(__FILE__)) . '/assets/markers/marker-shadow48.png', "shadowWidth" => '48', "shadowHeight" => "48"), 
-        (object)array(
-        "url" => plugin_dir_url(dirname(__FILE__)) . "/assets/markers/48x48-marker-12.png", "description" => "", "width" => "48", "height" => "48", "shadowUrl" => plugin_dir_url(dirname(__FILE__)) . '/assets/markers/marker-shadow48.png', "shadowWidth" => '48', "shadowHeight" => "48"), 
-        (object)array(
-        "url" => plugin_dir_url(dirname(__FILE__)) . "/assets/markers/48x48-marker-5.png", "description" => "", "width" => "48", "height" => "48", "shadowUrl" => plugin_dir_url(dirname(__FILE__)) . '/assets/markers/marker-shadow48.png', "shadowWidth" => '48', "shadowHeight" => "48"),);
+        "url" => plugin_dir_url(dirname(__FILE__)) . "/assets/markers/circulacao.svg", "description" => "", "width" => "60", "height" => "60"),);
         Locate_Anything_Addon_Helper::add_marker_icons("basic", $markers);
         
         /* Load default map overlays */

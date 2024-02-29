@@ -186,7 +186,7 @@ class Locate_Anything_Public {
 		$content .= "<!-- Map container -->	
 				<style>\n";
 				if(get_post_meta ( $atts ["map_id"], 'locate-anything-tooltip-style', true )=="squared") 
-				 $content .= ".leaflet-popup-content-wrapper {border-radius: 0 !important;}\n";				
+				 $content .= ".leaflet-popup-content-wrapper {border-radius: 0 !important;}\n";
 				if(get_post_meta ( $atts ["map_id"], 'locate-anything-marker-size', true )) 
 				 $content .= '#map-container-'.$atts ["map_id"]." .awesome-marker i {font-size:".get_post_meta ( $atts ["map_id"], 'locate-anything-marker-size', true )."px !important;}\n";	
 				 $content .= '#map-container-'.$atts ["map_id"].'{width:'.$params ["map-width"].';height:'.$params ["map-height"].'}
@@ -344,7 +344,7 @@ class Locate_Anything_Public {
 						var map_id='<?php echo $map_id?>';
 						<?php
 							if (Locate_Anything_Public::check_license_key('label')===false) {?>
-								jQuery("#<?php echo $map_container?>").append("<div style='background:grey;opacity:0.6;width:100%;height:1.5em;z-index:1500;position:absolute;bottom:0;text-align:left;padding-left:10px'><a style='cursor:pointer;text-decoration:none;color:#fff;' href='http://www.locate-anything.com' target='_blank'>Powered by LocateAnything</div>");
+								jQuery("#<?php echo $map_container?>").append("<div style='background:grey;opacity:0.6;width:100%;height:1.5em;z-index:1500;position:absolute;bottom:0;text-align:left;padding-left:10px'><a style='cursor:pointer;text-decoration:none;color:#fff;' href='https://zipdesign.pt/' target='_blank'>Powered by LocateAnything and ZIP Design</div>");
 						<?php	} ?>
 
 							
@@ -507,13 +507,19 @@ class Locate_Anything_Public {
 	 * @return html nav template html
 	 */
 	public static function getNavTemplate($map_id) {
-		$div_tag = "<div name=\"NavMarker-' + marker.id+ '\" id=\"NavMarker-' + marker.id+ '\" class=\"map-nav-item\" data-latlng=\"' + LatLng + '\" data-marker-id=\"' + marker.id + '\">";
-		$div_tag .= "<div class=\"map-nav-item-wrapper\">";
-		$div_end = "</div></div>";
-		$nav_template = get_post_meta ( $map_id, "locate-anything-default-nav-template", true );
-		$nav_template = Locate_Anything_Public::decode_template ( $nav_template );
-		return $div_tag . $nav_template . $div_end;
-	}
+    $div_tag = "<div name=\"NavMarker-' + marker.id+ '\" id=\"NavMarker-' + marker.id+ '\" class=\"map-nav-item\" data-latlng=\"' + LatLng + '\" data-marker-id=\"' + marker.id + '\">";
+    $div_tag .= "<div class=\"map-nav-item-wrapper\">";
+    $div_end = "</div></div>";
+    $nav_template = get_post_meta ( $map_id, "locate-anything-default-nav-template", true );
+    $nav_template = Locate_Anything_Public::decode_template ( $nav_template );
+    
+    // Modify the nav template to include street and street number
+    $nav_template = str_replace('|street|', '(marker.street ? marker.street : "")', $nav_template);
+    $nav_template = str_replace('|streetnum|', '(marker.streetnum ? marker.streetnum : "")', $nav_template);
+    
+    return $div_tag . $nav_template . $div_end;
+}
+
 	
 	/**
 	 * Returns Tooltip Template according to parameters
@@ -523,10 +529,15 @@ class Locate_Anything_Public {
 	 * @return html hml of the tooltip template
 	 */
 	public static function getTooltipTemplate($marker_id) {
-		$nav_template = get_post_meta ( $marker_id, "locate-anything-default-nav-template", true );
-		$nav_template = Locate_Anything_Public::decode_template ( $nav_template );
-		return $nav_template;
-	}
+    $nav_template = get_post_meta ( $marker_id, "locate-anything-default-nav-template", true );
+    $nav_template = Locate_Anything_Public::decode_template ( $nav_template );
+    
+    // Modify the tooltip template to include street and street number
+    $nav_template = str_replace('|street|', '(marker.street ? marker.street : "")', $nav_template);
+    $nav_template = str_replace('|streetnum|', '(marker.streetnum ? marker.streetnum : "")', $nav_template);
+    
+    return $nav_template;
+}
 	
 	/**
 	 * Returns Default Tooltip Template
@@ -560,7 +571,8 @@ class Locate_Anything_Public {
 				"small_thumbnail" ,
 				"medium_thumbnail",
 				"full_thumbnail",
-				"author_name"	
+				"author_name",
+				"pdf"
 		);
 		/* Apply locate_anything_basic_markup hook */	
 		if(!$post_type) $post_type = 'all';	
@@ -833,12 +845,13 @@ public static function defineDefaultMarker($params){
 		fwrite ( $cf, '{"data":[' );
 		$loop_counter = 0;
 		/* get Tags actually used in the templates */
-		$basic_fields=array("id","title","tooltip_template","lat","lng","street","streetnum","city","country","state" ,"zip","custom_marker","css_class");
+		$basic_fields=array("id","title","tooltip_template","lat","lng","street","streetnum","city","country","state" ,"zip","custom_marker", "css_class");
 
 		$tags_used=Locate_Anything_Public::getTagsUsedInTemplate($posts,$post_type,$params,$basic_fields);
 		$tags_used=apply_filters("locate_anything_whitelist_params",$tags_used);
 		// Loop : Generate Markers	
 			foreach ( $posts as $post ) {
+				
 				$post_params=array();
 				if($post_type!=="user") {
 					$post_params=Locate_Anything_Admin::getPostMetas($post->ID);					
@@ -902,7 +915,12 @@ public static function defineDefaultMarker($params){
 				$small_thumbnail="<div id='mask' style='max-height:".$css_maxheight."'>".get_the_post_thumbnail ( $id, 'thumbnail' )."</div>";
 				} else $small_thumbnail=get_the_post_thumbnail ( $id, 'thumbnail' );
 				
-				
+				//Added - 29/02
+				$pdf_array = get_field('upload_pdf_file'); // Get the ACF field array
+    			if (isset($pdf_array['url'])) {
+        	$pdf_url = $pdf_array['url']; // Access the URL from the array
+       		 $add["pdf_url"] = $pdf_url;
+    		}
 
 				/***********************/
 				/*    ADD MARKER INFOS */
@@ -922,7 +940,8 @@ public static function defineDefaultMarker($params){
 						"country" =>  $post_params["locate-anything-country"] ,
 						"state" =>  $post_params["locate-anything-state"] ,
 						"zip" =>  $post_params["locate-anything-zip"],
-						"custom_marker" => $custom_marker_id,						
+						"custom_marker" => $custom_marker_id,
+						"pdf_url" => $pdf_url, // Assuming $pdf_url contains the URL of the PDF file						
 						"css_class"=> $css_preset
 				);
 				
@@ -938,6 +957,7 @@ public static function defineDefaultMarker($params){
 						$add["small_thumbnail"]=$small_thumbnail;
 						$add["medium_thumbnail"]= get_the_post_thumbnail ( $id, 'post-thumbnail' );
 						$add["full_thumbnail"] =get_the_post_thumbnail ( $id, 'full' );
+
 				}
 
 				/* Add custom marker infos */
@@ -951,7 +971,7 @@ public static function defineDefaultMarker($params){
 				}
 					
 					
-			/* boil the markers info to the strict minimum*/
+				/* boil the markers info to the strict minimum*/
 
 				foreach ($add as $tag=>$val) {
 					if(array_search($tag,$tags_used)===false) unset($add[$tag]);

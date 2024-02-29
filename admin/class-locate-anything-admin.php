@@ -603,12 +603,14 @@ class Locate_Anything_Admin
 	 * returns default templates for new map
 	 *
 	 */
+
+	 //Added - 29/02
 	public static function getDefaultTemplates() {
 		return array(
 			"tooltip" => "|small_thumbnail|
-<p>|content_stripped|</p>",
+<p>|content_stripped|</p> <a href=\"|pdf_url|\">Download PDF</a>",
 			"navlist" => "<b>|title|</b>
-<span> |city|, |country|</span>
+<span> |city|, |country|</span> <a href=\"|pdf_url|\">Download PDF</a>
 <div>|content_stripped|</div>
 |small_thumbnail|"
 		);

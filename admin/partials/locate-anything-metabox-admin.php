@@ -140,7 +140,7 @@ function makeInput($type,$fieldname,$object_id,$default='') {?>
 
 <tr id="">
 <td><?php _e("Remove the 'Powered by LocateAnything' label","locate-anything")?></td>
-<td><?php _e(" &nbsp;<a target='_blank' href='http://www.locate-anything.com/addons/license/license-key/'>Get a License Key for only $4.99!</a>","locate-anything")?></td>
+<td><?php _e(" &nbsp;<a target='_blank' href='#'></a>","locate-anything")?></td>
 </tr>
 
 
@@ -323,7 +323,7 @@ $tooltip_presets=array(
 <td><b><?php _e("Navlist Preset","locate-anything")?> </b>:</td>
 <td><select name="locate-anything-navlist-preset" id="locate-anything-navlist-preset">
 <?php 
-$u=Locate_Anything_Admin::getDefaultTemplates();
+$u=Locate_Anything_Admin::getDefaultTemplates(); 
 /* navlist presets */
 $navlist_presets=array(
        (object)array("class"=>'',"name"=>__('none',"locate-anything"),"template"=>'')     
