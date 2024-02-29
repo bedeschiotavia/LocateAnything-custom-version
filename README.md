@@ -1,3 +1,11 @@
+# Customized Version - V.1
+WordPress 6.4.3
+
+Includes:
+[] PDF upload (works with ACF)
+[] Customized tooltips
+[] Custom GIF Markers
+
 # LocateAnything
 
 Website URL: http://www.locate-anything.com/
