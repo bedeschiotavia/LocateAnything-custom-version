@@ -89,7 +89,7 @@ class Locate_Anything_Public {
 		// Google Tiles
 		wp_enqueue_script ( $this->plugin_name . "-googleTiles", plugin_dir_url ( __FILE__ ) . 'js/leaflet-plugins-master/layer/tile/Google.js', array (
 				$this->plugin_name . "-leaflet-filters" 
-		), $this->version, false );
+		), $this->version, false);
 		// leaflet JS
 		wp_enqueue_script ( $this->plugin_name . "-leaflet", 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js', array (
 				'jquery' 
@@ -113,7 +113,7 @@ class Locate_Anything_Public {
 		// leaflet Google automplete JS
 		wp_enqueue_script ( $this->plugin_name . "-googleautojs", plugin_dir_url ( __FILE__ ) . 'js/leaflet-google-autocomplete/js/leaflet-google-autocomplete.js', array (
 				$this->plugin_name . "-leaflet-filters" 
-		), $this->version, false );
+		), $this->version, false);
 		// Awesome markers
 		wp_enqueue_script ( $this->plugin_name . "-awesomemarkersjs", plugin_dir_url ( __FILE__ ) . 'js/leaflet.awesome-markers-2.0/leaflet.awesome-markers.min.js', array (
 				$this->plugin_name . "-leaflet-filters" 
@@ -513,10 +513,6 @@ class Locate_Anything_Public {
     $nav_template = get_post_meta ( $map_id, "locate-anything-default-nav-template", true );
     $nav_template = Locate_Anything_Public::decode_template ( $nav_template );
     
-    // Modify the nav template to include street and street number
-    $nav_template = str_replace('|street|', '(marker.street ? marker.street : "")', $nav_template);
-    $nav_template = str_replace('|streetnum|', '(marker.streetnum ? marker.streetnum : "")', $nav_template);
-    
     return $div_tag . $nav_template . $div_end;
 }
 
@@ -531,10 +527,6 @@ class Locate_Anything_Public {
 	public static function getTooltipTemplate($marker_id) {
     $nav_template = get_post_meta ( $marker_id, "locate-anything-default-nav-template", true );
     $nav_template = Locate_Anything_Public::decode_template ( $nav_template );
-    
-    // Modify the tooltip template to include street and street number
-    $nav_template = str_replace('|street|', '(marker.street ? marker.street : "")', $nav_template);
-    $nav_template = str_replace('|streetnum|', '(marker.streetnum ? marker.streetnum : "")', $nav_template);
     
     return $nav_template;
 }
@@ -572,7 +564,6 @@ class Locate_Anything_Public {
 				"medium_thumbnail",
 				"full_thumbnail",
 				"author_name",
-				"pdf"
 		);
 		/* Apply locate_anything_basic_markup hook */	
 		if(!$post_type) $post_type = 'all';	
@@ -915,12 +906,6 @@ public static function defineDefaultMarker($params){
 				$small_thumbnail="<div id='mask' style='max-height:".$css_maxheight."'>".get_the_post_thumbnail ( $id, 'thumbnail' )."</div>";
 				} else $small_thumbnail=get_the_post_thumbnail ( $id, 'thumbnail' );
 				
-				//Added - 29/02
-				$pdf_array = get_field('upload_pdf_file'); // Get the ACF field array
-    			if (isset($pdf_array['url'])) {
-        	$pdf_url = $pdf_array['url']; // Access the URL from the array
-       		 $add["pdf_url"] = $pdf_url;
-    		}
 
 				/***********************/
 				/*    ADD MARKER INFOS */
@@ -941,7 +926,6 @@ public static function defineDefaultMarker($params){
 						"state" =>  $post_params["locate-anything-state"] ,
 						"zip" =>  $post_params["locate-anything-zip"],
 						"custom_marker" => $custom_marker_id,
-						"pdf_url" => $pdf_url, // Assuming $pdf_url contains the URL of the PDF file						
 						"css_class"=> $css_preset
 				);
 				

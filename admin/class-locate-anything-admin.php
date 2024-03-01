@@ -44,7 +44,7 @@ class Locate_Anything_Admin
 	 * @var string $app_Gmaps_key
 	 		 The GoogleMaps key.
 	 */
-	 static $Gmaps_API_key = 'AIzaSyC0lZ7MbGfowxNTZva7fAyeTJ18dAWMUp0';
+	static $Gmaps_API_key = 'AIzaSyC0lZ7MbGfowxNTZva7fAyeTJ18dAWMUp0';
 
 	/**
 	 * Initialize the class and set its properties.
@@ -603,16 +603,12 @@ class Locate_Anything_Admin
 	 * returns default templates for new map
 	 *
 	 */
-
-	 //Added - 29/02
 	public static function getDefaultTemplates() {
 		return array(
-			"tooltip" => "|small_thumbnail|
-<p>|content_stripped|</p> <a href=\"|pdf_url|\">Download PDF</a>",
-			"navlist" => "<b>|title|</b>
-<span> |city|, |country|</span> <a href=\"|pdf_url|\">Download PDF</a>
-<div>|content_stripped|</div>
-|small_thumbnail|"
+			"tooltip" => "|street| |streetnum| - |city| |zip| </br> |content| </br> |pdf_url|",
+			"navlist" => "<b>|title|</b></br>
+			|street|,|streetnum| - |city| |zip| </br>
+			|pdf_url| </br>"
 		);
 	}
 	/**

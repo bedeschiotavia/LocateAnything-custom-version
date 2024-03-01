@@ -67,11 +67,11 @@ else  $post_params=Locate_Anything_Admin::getPostMetas($object->ID);
            <td><b><?php _e("Tooltip Preset","locate-anything")?> </b>:</td>
            <td><select name="locate-anything-tooltip-preset" id="locate-anything-tooltip-preset"><?php 
            $u=Locate_Anything_Admin::getDefaultTemplates();
+					 
 /* tooltip presets *///Added - 29/02
-$tooltip_presets=array((object)array("class"=>'default',"name"=>__('Abastecimento',"locate-anything"),"template"=>'<b>|title|</b></br>
-<b>|street|</b>'),
-       (object)array("class"=>'',"name"=>__('Obras',"locate-anything"),"template"=>$u["tooltip"]),
-       (object)array("class"=>'nice-tooltips',"name"=>'Circulação',"template"=>$u["tooltip"])
+$tooltip_presets=array((object)array("class"=>'default-abastecimento',"name"=>__('Abastecimento',"locate-anything"),"template"=>'<b>|title|</b></br><b>|street|</b><b>' . esc_url($upload_pdf_file['url']) . '</b>'),
+       (object)array("class"=>'obras',"name"=>__('Obras',"locate-anything"),"template"=>$u["tooltip"]),
+       (object)array("class"=>'circulacao',"name"=>'Circulação',"template"=>$u["tooltip"])
        );
  $tooltip_presets=apply_filters("locate_anything_tooltip_presets",$tooltip_presets);
  $selectedPreset=$post_params["locate-anything-tooltip-preset"];

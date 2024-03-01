@@ -306,7 +306,7 @@ function makeInput($type,$fieldname,$object_id,$default='') {?>
 $u=Locate_Anything_Admin::getDefaultTemplates();
 /* tooltip presets */
 $tooltip_presets=array(
-       (object)array("class"=>'',"name"=>__('none',"locate-anything"),"template"=>''),
+       (object)array("class"=>'',"name"=>__('none',"locate-anything"),"template"=>$u["tooltip"]),
        (object)array("class"=>'nice-tooltips',"name"=>'Nice Tooltips',"template"=>$u["tooltip"])
        );                       
  $tooltip_presets=apply_filters("locate_anything_tooltip_presets",$tooltip_presets);
@@ -326,7 +326,7 @@ $tooltip_presets=array(
 $u=Locate_Anything_Admin::getDefaultTemplates(); 
 /* navlist presets */
 $navlist_presets=array(
-       (object)array("class"=>'',"name"=>__('none',"locate-anything"),"template"=>'')     
+       (object)array("class"=>'',"name"=>__('none',"locate-anything"),"template"=>$u["navlist"])     
        );                       
  $navlist_presets=apply_filters("locate_anything_navlist_presets",$navlist_presets);
  $selectedPreset=get_post_meta($object->ID,"locate-anything-navlist-preset",true);
