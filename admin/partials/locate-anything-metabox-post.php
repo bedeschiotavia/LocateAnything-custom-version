@@ -70,8 +70,8 @@ else  $post_params=Locate_Anything_Admin::getPostMetas($object->ID);
 					 
 /* tooltip presets *///Added - 29/02
 $tooltip_presets=array((object)array("class"=>'default-abastecimento',"name"=>__('Abastecimento',"locate-anything"),"template"=>'<b>|title|</b></br><b>|street|</b><b>' . esc_url($upload_pdf_file['url']) . '</b>'),
-       (object)array("class"=>'obras',"name"=>__('Obras',"locate-anything"),"template"=>$u["tooltip"]),
-       (object)array("class"=>'circulacao',"name"=>'Circulação',"template"=>$u["tooltip"])
+       (object)array("class"=>'obras',"name"=>__('Obras',"locate-anything"),"template"=>'<b>|title|</b></br><b>|street|</b><b>' . esc_url($upload_pdf_file['url']) . '</b>'),
+       (object)array("class"=>'circulacao',"name"=>'Circulação',"template"=>'<b>|title|</b></br><b>|street|</b><b>' . esc_url($upload_pdf_file['url']) . '</b>')
        );
  $tooltip_presets=apply_filters("locate_anything_tooltip_presets",$tooltip_presets);
  $selectedPreset=$post_params["locate-anything-tooltip-preset"];
