@@ -41,14 +41,23 @@ else  $post_params=Locate_Anything_Admin::getPostMetas($object->ID);
 				</tr>
 				<tr>
 				<td><?php _e("PDF","locate-anything")?></td>
-				<td><?php
-                $upload_pdf_file = get_field('upload_pdf_file'); // Retrieve the value of the ACF field 'upload_pdf_file'
-                if ($upload_pdf_file) {
-                    echo '<a href="' . esc_url($upload_pdf_file['url']) . '" target="_blank">' . esc_html($upload_pdf_file['title']) . '</a>';
-                } else {
-                    echo __('Nenhum PDF Adicionado', 'locate-anything');
-                }
-                ?></td>
+				<td>
+					<?php 
+							$upload_pdf_file = get_field('upload_pdf_file'); // Retrieve the value of the ACF field 'upload_pdf_file'
+							if ($upload_pdf_file) {
+									$pdf_info_url = esc_url($upload_pdf_file['url']); // Store PDF URL in variable
+									$pdf_link ='<a href="' . $pdf_info_url . '" target="_blank">' . esc_html($upload_pdf_file['title']) . '</a>';
+									echo $pdf_link;
+									// Set the link markup in $post_params
+									$post_params['locate-anything-pdf_info'] = $pdf_info_url;
+							} else {
+									echo __('Nenhum PDF Adicionado', 'locate-anything');
+									// Set a default value for $post_params['locate-anything-pdf_info'] if no PDF is uploaded
+									$post_params['locate-anything-pdf_info'] = '';
+							}
+					?>
+				</td>
+				<td><input type="hidden" name="locate-anything-pdf_info" value="<?php echo "<a href='{$post_params['locate-anything-pdf_info']}' target='_blank'>ver detalhes pdf</a>"?>"></td>
 				</tr>
 				</table>
 <br>
@@ -69,9 +78,9 @@ else  $post_params=Locate_Anything_Admin::getPostMetas($object->ID);
            $u=Locate_Anything_Admin::getDefaultTemplates();
 					 
 /* tooltip presets *///Added - 29/02
-$tooltip_presets=array((object)array("class"=>'default-abastecimento',"name"=>__('Abastecimento',"locate-anything"),"template"=>'<b>|title|</b></br><b>|street|</b><b>' . esc_url($upload_pdf_file['url']) . '</b>'),
-       (object)array("class"=>'obras',"name"=>__('Obras',"locate-anything"),"template"=>'<b>|title|</b></br><b>|street|</b><b>' . esc_url($upload_pdf_file['url']) . '</b>'),
-       (object)array("class"=>'circulacao',"name"=>'Circulação',"template"=>'<b>|title|</b></br><b>|street|</b><b>' . esc_url($upload_pdf_file['url']) . '</b>')
+$tooltip_presets=array((object)array("class"=>'default-abastecimento',"name"=>__('Abastecimento',"locate-anything"),"template"=>'<b>|title|</b></br><b>|street|</b><b>|pdf_info|</b>'),
+       (object)array("class"=>'obras',"name"=>__('Obras',"locate-anything"),"template"=>'<b>|title|</b></br><b>|street|</b><b>|pdf_info|</b>'),
+       (object)array("class"=>'circulacao',"name"=>'Circulação',"template"=>'<b>|title|</b></br><b>|street|</b><b>|pdf_info|</b>')
        );
  $tooltip_presets=apply_filters("locate_anything_tooltip_presets",$tooltip_presets);
  $selectedPreset=$post_params["locate-anything-tooltip-preset"];

@@ -181,7 +181,7 @@ class Locate_Anything_Public {
         
 
 		$params ["map-width"]=get_post_meta ( $atts ["map_id"], 'locate-anything-map-width', true ) ;
-		$params ["map-height"]=get_post_meta ($atts ["map_id"] , 'locate-anything-map-height', true );		
+		$params ["map-height"]= get_post_meta ($atts ["map_id"] , 'locate-anything-map-height', true );		
 
 		$content .= "<!-- Map container -->	
 				<style>\n";
@@ -210,10 +210,10 @@ class Locate_Anything_Public {
 	 *        	post content
 	 * @return [void]
 	 */
-	public static function outputNavlistMarkup($atts, $content) {
+	public static function outputNavlistMarkup($atts, $content) {	
 		return $content .= '<!-- Map Nav -->
-				<div class="map-nav-wrapper" id="map-nav-wrapper-'.$atts["map_id"].'">
-				<div id="map-nav-'.$atts["map_id"].'"></div>				
+				<div class="map-nav-wrapper" id="map-nav-wrapper-'.$atts["map_id"].' ">
+				<div id="map-nav-'.$atts["map_id"].'"></div>
 				</div>
 				<div class="map-nav-pagination" id="map-nav-pagination-'.$atts["map_id"].'"></div>';
 	}
@@ -499,6 +499,7 @@ class Locate_Anything_Public {
 		return $r;
 	}
 	
+	
 	/**
 	 * returns Nav Template according to parameters
 	 * 
@@ -512,6 +513,7 @@ class Locate_Anything_Public {
     $div_end = "</div></div>";
     $nav_template = get_post_meta ( $map_id, "locate-anything-default-nav-template", true );
     $nav_template = Locate_Anything_Public::decode_template ( $nav_template );
+
     
     return $div_tag . $nav_template . $div_end;
 }
@@ -564,6 +566,7 @@ class Locate_Anything_Public {
 				"medium_thumbnail",
 				"full_thumbnail",
 				"author_name",
+				"pdf_info",
 		);
 		/* Apply locate_anything_basic_markup hook */	
 		if(!$post_type) $post_type = 'all';	
@@ -836,36 +839,36 @@ public static function defineDefaultMarker($params){
 		fwrite ( $cf, '{"data":[' );
 		$loop_counter = 0;
 		/* get Tags actually used in the templates */
-		$basic_fields=array("id","title","tooltip_template","lat","lng","street","streetnum","city","country","state" ,"zip","custom_marker", "css_class");
+		$basic_fields=array("id","title","tooltip_template","lat","lng","street","streetnum","city","country","state" ,"zip","custom_marker", "css_class","pdf_info");
 
 		$tags_used=Locate_Anything_Public::getTagsUsedInTemplate($posts,$post_type,$params,$basic_fields);
 		$tags_used=apply_filters("locate_anything_whitelist_params",$tags_used);
 		// Loop : Generate Markers	
 			foreach ( $posts as $post ) {
 				
-				$post_params=array();
-				if($post_type!=="user") {
-					$post_params=Locate_Anything_Admin::getPostMetas($post->ID);					
-					$post_params["excerpt"]= $post->post_excerpt;
-					$post_params["post_link"]=get_permalink ($post->ID);
-				}
-				$post_params["post_type"]=$post_type;
-				$post_params = apply_filters("locate_anything_marker_params",$post_params,$post->ID,$map_id);
+			$post_params=array();
+			if($post_type!=="user") {
+				$post_params=Locate_Anything_Admin::getPostMetas($post->ID);					
+				$post_params["excerpt"]= $post->post_excerpt;
+				$post_params["post_link"]=get_permalink ($post->ID);
+			}
+			$post_params["post_type"]=$post_type;
+			$post_params = apply_filters("locate_anything_marker_params",$post_params,$post->ID,$map_id);
 
-				$lat = $post_params["locate-anything-lat"];
-				$lon = $post_params["locate-anything-lon"];
-				/* no LatLng? No can do */
-				if (! $lon || ! $lat) continue;
+			$lat = $post_params["locate-anything-lat"];
+			$lon = $post_params["locate-anything-lon"];
+			/* no LatLng? No can do */
+			if (! $lon || ! $lat) continue;
 
-				if ($loop_counter > 0)	fwrite ( $cf, "," );
-				
-				$id = ( string ) $post->ID;
-				/* define Marker icon for this element */
-				$markerIcon=Locate_Anything_Public::defineMarkerIcon($post_params);	
-				$custom_marker_id=	$markerIcon["id"];
-				if(!empty($custom_marker_id)) {				
-				$markers[$custom_marker_id]=$markerIcon["marker"];
-				}
+			if ($loop_counter > 0)	fwrite ( $cf, "," );
+			
+			$id = ( string ) $post->ID;
+			/* define Marker icon for this element */
+			$markerIcon=Locate_Anything_Public::defineMarkerIcon($post_params);	
+			$custom_marker_id=	$markerIcon["id"];
+			if(!empty($custom_marker_id)) {				
+			$markers[$custom_marker_id]=$markerIcon["marker"];
+			}
 				
 				/***********************/
 				/*    PREPARE DATAS  */
@@ -926,7 +929,8 @@ public static function defineDefaultMarker($params){
 						"state" =>  $post_params["locate-anything-state"] ,
 						"zip" =>  $post_params["locate-anything-zip"],
 						"custom_marker" => $custom_marker_id,
-						"css_class"=> $css_preset
+						"css_class"=> $css_preset,
+						'pdf_info' => $post_params["locate-anything-pdf_info"],
 				);
 				
 

@@ -608,7 +608,7 @@ class Locate_Anything_Admin
 			"tooltip" => "|street| |streetnum| - |city| |zip| </br> |content| </br> |pdf_url|",
 			"navlist" => "<b>|title|</b></br>
 			|street|,|streetnum| - |city| |zip| </br>
-			|pdf_url| </br>"
+			|pdf_info| </br>"
 		);
 	}
 	/**

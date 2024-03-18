@@ -324,10 +324,11 @@ $tooltip_presets=array(
 <td><select name="locate-anything-navlist-preset" id="locate-anything-navlist-preset">
 <?php 
 $u=Locate_Anything_Admin::getDefaultTemplates(); 
-/* navlist presets */
+/* navlist presets *//////Add 18/03
 $navlist_presets=array(
-       (object)array("class"=>'',"name"=>__('none',"locate-anything"),"template"=>$u["navlist"])     
-       );                       
+       (object)array("class"=>'',"name"=>__('none',"locate-anything"),"template"=>$u["navlist"]),
+			 (object)array("class"=>'',"name"=>__('aguas',"locate-anything"),"template"=>'<b>|title|</b></br><b>|street|</b><b>' . esc_url($upload_pdf_file['url']) . '</b>'),     
+       );                     
  $navlist_presets=apply_filters("locate_anything_navlist_presets",$navlist_presets);
  $selectedPreset=get_post_meta($object->ID,"locate-anything-navlist-preset",true);
  foreach ($navlist_presets as  $preset) {
