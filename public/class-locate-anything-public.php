@@ -567,6 +567,8 @@ class Locate_Anything_Public {
 				"full_thumbnail",
 				"author_name",
 				"pdf_info",
+				"type",
+				"date",
 		);
 		/* Apply locate_anything_basic_markup hook */	
 		if(!$post_type) $post_type = 'all';	
@@ -839,7 +841,7 @@ public static function defineDefaultMarker($params){
 		fwrite ( $cf, '{"data":[' );
 		$loop_counter = 0;
 		/* get Tags actually used in the templates */
-		$basic_fields=array("id","title","tooltip_template","lat","lng","street","streetnum","city","country","state" ,"zip","custom_marker", "css_class","pdf_info");
+		$basic_fields=array("id","title","tooltip_template","lat","lng","street","streetnum","city","country","state" ,"zip","custom_marker", "css_class","pdf_info", "type","date",);
 
 		$tags_used=Locate_Anything_Public::getTagsUsedInTemplate($posts,$post_type,$params,$basic_fields);
 		$tags_used=apply_filters("locate_anything_whitelist_params",$tags_used);
@@ -931,6 +933,8 @@ public static function defineDefaultMarker($params){
 						"custom_marker" => $custom_marker_id,
 						"css_class"=> $css_preset,
 						'pdf_info' => $post_params["locate-anything-pdf_info"],
+						'type' => $post_params["locate-anything-type"],
+						'date' => $post_params["locate-anything-date"],
 				);
 				
 
